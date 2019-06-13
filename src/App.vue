@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <top-nav_o></top-nav_o>
+    <div class="content">
+      <img src="./assets/logo.png">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
+import TopNav_o from "./components/molecules/organisms/TopNav_o";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {TopNav_o}
 }
 </script>
 
@@ -19,5 +24,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.content{
+  margin-top: 50px;
 }
 </style>
