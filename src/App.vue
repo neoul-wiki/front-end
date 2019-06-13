@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import TopNav_o from "./components/molecules/organisms/TopNav_o";
+import TopNav_o from "./components/organisms/TopNav_o";
 export default {
   name: 'App',
   components: {TopNav_o}
@@ -24,8 +24,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-.content{
-  margin-top: 50px;
 }
 </style>

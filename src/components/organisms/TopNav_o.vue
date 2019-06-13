@@ -9,7 +9,7 @@
 
         </div>
         <div class="topNav_right">
-
+          <nav-buttons></nav-buttons>
           <user-icon_a v-bind:imgPath="imgPath" id="userIcon"></user-icon_a>
         </div>
       </div>
@@ -20,6 +20,7 @@
     import Search_m from "../molecules/search/Search_m";
     import NeoulWikiLogo_a from "../atoms/logo/NeoulWikiLogo_a";
     import UserIcon_a from "../atoms/icons/UserIcon_a";
+    import NavButtons from "../molecules/btns/NavButtons";
     export default {
         name: "TopNav_o",
         data(){
@@ -27,7 +28,7 @@
             imgPath:"../../../../static/img/user/content02.png"
           }
         },
-      components: {UserIcon_a, NeoulWikiLogo_a, Search_m}
+      components: {NavButtons, UserIcon_a, NeoulWikiLogo_a, Search_m}
     }
 </script>
 
@@ -46,6 +47,7 @@
   .topNav_in{
     width: 80%;
     margin: 0px auto;
+    position: relative;
   }
   .lBtns_in{
     margin: 5px;
@@ -56,8 +58,8 @@
 
   }
   .topNav_right{
-    position: relative;
-
+    position: absolute;
+    right: 0px;
   }
   .logo{
     float: left;
