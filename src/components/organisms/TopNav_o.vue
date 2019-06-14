@@ -42,17 +42,22 @@
     background-image: linear-gradient(to right, #209cff 0%, #68e0cf 100%);
     opacity: 0.9;
     height: 45px;
-
   }
+
   .topNav_in{
     width: 80%;
     margin: 0px auto;
     position: relative;
+    transition: all 0.2s ease-out;
   }
+
   .lBtns_in{
-    margin: 5px;
+    margin: 6px;
   }
   .topNav_left{
+    height: 45px;
+    display: inline-flex;
+    float: left;
   }
   .topNav_center{
 
@@ -70,5 +75,10 @@
     margin-top: 3px;
     margin-right: 5px;
     float: right;
+  }
+  @media (max-width: 1200px) {
+    .topNav_in{
+      width: 100%;
+    }
   }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div class="search_m">
-    <div class="search_in">
-      <input class="search_text" type="text">
+    <div class="search_text_out">
+      <input type="text" id="search_text">
     </div>
-    <div class="search_icon_out">
-      <i class="fas fa-search" id="search_icon"></i>
-    </div>
+    <label class="search_label" for="search_text">
+      <i class="fas fa-search search_icon"></i>
+    </label>
   </div>
 </template>
 
@@ -17,34 +17,33 @@
 
 <style scoped>
   .search_m{
-    float: left;
     position: relative;
-    width: 300px;
-  }
-  .search_text{
-    outline: none;
-    border: 0px;
-    font-size: 12pt;
-    line-height: 32px;
-    background-color: rgba(14, 134, 190, 0.0);
-    width: 80%;
-    position: absolute;
-    left: 8px;
-  }
-  .search_in{
     border-radius: 5px;
-    background: rgba(255,255,255,0.8);
+    background: white;
+    display: inline-flex;
+    overflow: hidden;
+    height: 32px;
+  }
+  .search_text_out{
+    height: 32px;
     width: 100%;
-    position: relative;
-    height: 34px;
   }
-  .search_icon_out{
-    position: absolute;
-    top: 8px;
-    right: 8px;
+  #search_text{
+    outline: none;
+    border: none;
+    font-size: 16px;
+    margin-top: 7px;
+    margin-left: 7px;
+    width: 100%;
   }
-  #search_icon{
-    color: rgba(112, 203, 245, 0.9);
+  .search_label{
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
     cursor: pointer;
+  }
+  .search_icon{
+    margin: 7px auto;
+    color: #209cff;
   }
 </style>

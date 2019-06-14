@@ -1,0 +1,9 @@
+
+.icon-users:before { content: '\e800'; } /* '' */
+.icon-edit:before { content: '\e801'; } /* '' */
+.icon-chat-1:before { content: '\e802'; } /* '' */
+.icon-clipboard:before { content: '\e803'; } /* '' */
+.icon-chat:before { content: '\f03d'; } /* '' */
+.icon-doc-text:before { content: '\f0f6'; } /* '' */
+.icon-doc-text-inv:before { content: '\f15c'; } /* '' */
+.icon-file-word:before { content: '\f1c2'; } /* '' */
