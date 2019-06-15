@@ -5,12 +5,13 @@
           <neoul-wiki-logo_a class="logo"></neoul-wiki-logo_a>
           <search_m class="lBtns_in"></search_m>
         </div>
-        <div class="topNav_center">
-
-        </div>
         <div class="topNav_right">
-          <nav-buttons></nav-buttons>
-          <user-icon_a v-bind:imgPath="imgPath" id="userIcon"></user-icon_a>
+          <nav-buttons_m></nav-buttons_m>
+          <label for="userIcon_check">
+            <user-icon_a v-bind:imgPath="imgPath" id="userIcon"></user-icon_a>
+          </label>
+          <input type="checkbox" id="userIcon_check">
+          <user-drop-menu_m class="userIcon_drop_down"></user-drop-menu_m>
         </div>
       </div>
     </div>
@@ -20,7 +21,9 @@
     import Search_m from "../molecules/search/Search_m";
     import NeoulWikiLogo_a from "../atoms/logo/NeoulWikiLogo_a";
     import UserIcon_a from "../atoms/icons/UserIcon_a";
-    import NavButtons from "../molecules/btns/NavButtons";
+    import NavButtons_m from "../molecules/btns/NavButtons_m";
+    import UserDropMenu_m from "../molecules/drop/UserDropMenu_m";
+
     export default {
         name: "TopNav_o",
         data(){
@@ -28,7 +31,7 @@
             imgPath:"../../../../static/img/user/content02.png"
           }
         },
-      components: {NavButtons, UserIcon_a, NeoulWikiLogo_a, Search_m}
+      components: {UserDropMenu_m, NavButtons_m, UserIcon_a, NeoulWikiLogo_a, Search_m}
     }
 </script>
 
@@ -52,19 +55,17 @@
   }
 
   .lBtns_in{
-    margin: 6px;
+    margin-top: 6px;
+    margin-left: 6px;
   }
   .topNav_left{
     height: 45px;
     display: inline-flex;
     float: left;
   }
-  .topNav_center{
-
-  }
   .topNav_right{
-    position: absolute;
-    right: 0px;
+    position: relative;
+    float: right;
   }
   .logo{
     float: left;
@@ -75,6 +76,17 @@
     margin-top: 3px;
     margin-right: 5px;
     float: right;
+    cursor: pointer;
+  }
+  .userIcon_drop_down{
+    display: none;
+  }
+  #userIcon_check{
+    position: fixed;
+    right: 99999px;
+  }
+  #userIcon_check:checked ~ .userIcon_drop_down{
+    display: flex;
   }
   @media (max-width: 1200px) {
     .topNav_in{

@@ -1,8 +1,5 @@
 <template>
   <div class="navButtons navButtons_all">
-    <div>
-
-    </div>
       <div class="navButton_out navButtons_all" v-bind:class="{selected_navButton:btn1}" @click="selected(0)">
         <div class="navButton_in">
           <div class="navButton_icon navButtons_all">
@@ -105,7 +102,7 @@
 
   .navButtons{
     margin-top: 5px;
-    margin-right: 20px;
+    margin-right: 10px;
   }
   .navButton_out{
     width: 80px;
@@ -119,13 +116,9 @@
   }
   .navButton_out:hover{
     font-weight: bold;
-    text-shadow: 0 0 2px gray;
-  }
-  .navButton_icon{
-
+    background: rgba(255,255,255,0.5);
   }
   .navButton_text{
-    transition: all 0.2s ease;
     font-size: 13px;
     margin-left: 5px;
   }
