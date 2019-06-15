@@ -20,7 +20,9 @@
           </div>
         </div>
       </div>
-      <div class="navButton_out navButtons_all" v-bind:class="{selected_navButton:btn3}" @click="selected(2)">
+      <div class="navButton_out navButtons_all"
+           v-bind:class="{selected_navButton:btn3}"
+           @click="selected(2)">
         <div class="navButton_in">
           <div class="navButton_icon navButtons_all">
             <i class="icon-users"></i>
@@ -134,13 +136,6 @@
     background: white;
     color: #209cff;
     font-weight: bold;
-  }
-  .no-drag {
-    cursor: pointer;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    user-select:none;
   }
   @media (max-width: 900px) {
     .navButton_text{

@@ -2,16 +2,16 @@
     <div class="topNav_o">
       <div class="topNav_in">
         <div class="topNav_left">
-          <neoul-wiki-logo_a class="logo"></neoul-wiki-logo_a>
+          <neoul-wiki-logo_a class="logo no-drag"></neoul-wiki-logo_a>
           <search_m class="lBtns_in"></search_m>
         </div>
         <div class="topNav_right">
-          <nav-buttons_m></nav-buttons_m>
-          <label for="userIcon_check">
-            <user-icon_a v-bind:imgPath="imgPath" id="userIcon"></user-icon_a>
+          <nav-buttons_m class="no-drag"></nav-buttons_m>
+          <label for="userIcon_check" class="no-drag">
+            <user-icon_a v-bind:imgPath="get_userInfo().imgPath" id="userIcon"></user-icon_a>
           </label>
-          <input type="checkbox" id="userIcon_check">
-          <user-drop-menu_m class="userIcon_drop_down"></user-drop-menu_m>
+          <input type="checkbox" id="userIcon_check" class="no-drag">
+          <user-drop-menu_m class="userIcon_drop_down no-drag" v-bind:userInfo="get_userInfo()"></user-drop-menu_m>
         </div>
       </div>
     </div>
@@ -24,13 +24,54 @@
     import NavButtons_m from "../molecules/btns/NavButtons_m";
     import UserDropMenu_m from "../molecules/drop/UserDropMenu_m";
 
+    import Vue from "vue"
+    import Vuex from "vuex"
+
+    Vue.use(Vuex)
+
+    const store = new Vuex.Store({
+      state:{
+        userInfo:{
+          nikName:'guest',
+          id:'@guest',
+          notice:0,
+          level:0,
+          point:0,
+          imgPath:"../../../../static/img/user/content03.png"
+        }
+      },
+      mutations:{
+        set_userInfo:userInfo =>{
+          userInfo.nikName='guest'
+          userInfo.id = '@guest'
+          userInfo.notice=0
+          userInfo.level=0
+          userInfo.point=0
+          userInfo.imgPath="../../../../static/img/user/content03.png"
+        }
+      }
+    })
+
     export default {
-        name: "TopNav_o",
-        data(){
-          return{
-            imgPath:"../../../../static/img/user/content02.png"
-          }
+      name: "TopNav_o",
+      data(){
+        return{
+          imgPath:"../../../../static/img/user/content02.png"
+        }
+      },
+      methods:{
+        set_userInfo(){
+          store.commit('set_userInfo');
         },
+        get_userInfo(){
+          return store.state.userInfo
+        }
+      },
+      computed:{
+        userInfo(){
+          return store.state.userInfo
+        }
+      },
       components: {UserDropMenu_m, NavButtons_m, UserIcon_a, NeoulWikiLogo_a, Search_m}
     }
 </script>
@@ -87,6 +128,12 @@
   }
   #userIcon_check:checked ~ .userIcon_drop_down{
     display: flex;
+  }
+  .no-drag {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select:none;
   }
   @media (max-width: 1200px) {
     .topNav_in{

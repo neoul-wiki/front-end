@@ -4,28 +4,31 @@
       <div class="drop_menu_user_icon_back">
         <span>이미지 변경</span>
       </div>
-      <UserIcon_a v-bind:imgPath="imgPath" id="drop_menu_user_icon"></UserIcon_a>
+      <UserIcon_a v-bind:imgPath="userInfo.imgPath" id="drop_menu_user_icon"></UserIcon_a>
       <div class="drop_menu_info_history">
-        <div class="dmui_title">히스토리</div>
+        <div class="dmui_history">히스토리</div>
       </div>
       <div class="drop_menu_user_info">
         <ul class="drop_menu_info_list">
           <div class="drop_menu_info_name">
-            <div class="dmui_nik">파리야날아라아아아</div><!--닉네임-->
-            <div class="dmui_id">@flyToTheHousefly</div><!--아이디-->
+            <div class="dmui_nik">{{userInfo.nikName}}</div><!--닉네임-->
+            <div class="dmui_id">{{userInfo.id}}</div><!--아이디-->
           </div>
-          <div class="drop_menu_info_contents">
+          <div v-if="{disabled_content:userInfo.id === '@guest'}" class="disabled_content">
+            <span>로그인 해주세요!</span>
+          </div>
+          <div class="drop_menu_info_contents" v-bind:class="{dmic_disabled:userInfo.id === '@guest'}">
             <div class="drop_menu_info_content">
-              <div class="dmui_title">권한</div>
-              <div class="dmui_data">Member</div>
+              <div class="dmui_title">알림</div>
+              <div class="dmui_data">{{userInfo.notice}}</div>
             </div>
             <div class="drop_menu_info_content">
-              <div class="dmui_title">기여</div>
-              <div class="dmui_data">1111111111</div>
+              <div class="dmui_title">레벨</div>
+              <div class="dmui_data">{{userInfo.level}}</div>
             </div>
             <div class="drop_menu_info_content">
-              <div class="dmui_title">관심</div>
-              <div class="dmui_data">999999</div>
+              <div class="dmui_title">포인트</div>
+              <div class="dmui_data">{{userInfo.point}}</div>
             </div>
           </div>
         </ul>
@@ -37,7 +40,8 @@
           <span>정보 수정</span>
         </div>
         <div class="drop_menu_logout_btn">
-          <span>로그아웃</span>
+          <span v-if="userInfo.id !== '@guest'">로그아웃</span>
+          <span v-if="userInfo.id === '@guest'">로그인</span>
         </div>
       </div>
     </div>
@@ -47,6 +51,7 @@
 <script>
     import UserIcon_a from "../../atoms/icons/UserIcon_a";
     export default {
+      props:['userInfo'],
       data(){
         return {
           imgPath: "../../../../static/img/user/content02.png"
@@ -98,11 +103,13 @@
   }
   .drop_menu_user_info{
     position: absolute;
-    top: 0px;
-    left: 85px;
+    top: 16px;
+    left: 125px;
   }
   .drop_menu_info_list{
     list-style: none;
+    padding-left: 0px;
+    margin: 0px;
   }
   .drop_menu_info_name{
     display: inline-block;
@@ -112,16 +119,22 @@
     font-size: 16px;
     font-weight: bold;
     color: #005580;
+    width: 160px;
+    height: 21px;
+    overflow: hidden;
+    text-align: left;
+    /*margin-top: -3px;*/
   }
   .dmui_id{
     float: left;
     color: #999999;
-    font-size: 14px;
+    font-size: 13px;
     display: flex;
-    margin-top: -3px;
   }
   .drop_menu_info_contents{
     margin-top: 10px;
+    width: 150px;
+    margin-left: 5px;
   }
   .drop_menu_info_content{
     display: contents;
@@ -133,20 +146,23 @@
     float: left;
     font-size: 15px;
   }
+  .dmui_history{
+    float: left;
+    font-size: 12px;
+    color: #999999;
+    cursor: pointer;
+  }
   .dmui_data{
     line-height: 22px;
     color: #999999;
     margin-left: 20px;
+    text-align: right;
   }
 
   .drop_menu_info_history{
     position: relative;
-    left: 42px;
-    margin-top: 10px;
-  }
-  .drop_menu_info_history > div{
-    font-size: 12px;
-    color: #999999;
+    left: 40px;
+    top: 10px;
   }
   .drop_menu_info_email{
     font-size: 12px;
@@ -168,25 +184,51 @@
     width: 100%;
     height: 100%;
   }
+  .drop_menu_buttons_in > div{
+    cursor: pointer;
+  }
   .drop_menu_update_btn{
     width: 49%;
     height: 40px;
     float: left;
     border-right: 1px solid #f3f3f3;
   }
-
+  .drop_menu_update_btn:hover{
+    background: rgb(226, 248, 255);
+  }
   .drop_menu_update_btn > span {
     line-height: 40px;
     color: #005580;
   }
-  
   .drop_menu_logout_btn{
     width: 50%;
     height: 40px;
     float: left;
   }
+  .drop_menu_logout_btn:hover{
+    background: rgb(226, 248, 255);
+  }
   .drop_menu_logout_btn > span {
     line-height: 40px;
     color: #005580;
+  }
+  .disabled_content{
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 47px;
+    left:0px;
+    width: 165px;
+    height: 70px;
+    border-radius: 5px;
+  }
+  .disabled_content > span {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  .dmic_disabled {
+    opacity: 0.3;
   }
 </style>

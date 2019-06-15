@@ -32,7 +32,7 @@
     outline: none;
     border: none;
     font-size: 16px;
-    margin-top: 7px;
+    margin-top: 5px;
     margin-left: 7px;
     width: 100%;
   }
