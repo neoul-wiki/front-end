@@ -3,15 +3,24 @@
       <div class="topNav_in">
         <div class="topNav_left">
           <neoul-wiki-logo_a class="logo no-drag"></neoul-wiki-logo_a>
-          <search_m class="lBtns_in"></search_m>
+          <search_m class="lBtns_in"
+                    v-on:search_action="go_search_action">
+          </search_m>
         </div>
         <div class="topNav_right">
           <nav-buttons_m class="no-drag"></nav-buttons_m>
           <label for="userIcon_check" class="no-drag">
-            <user-icon_a v-bind:imgPath="get_userInfo().imgPath" id="userIcon"></user-icon_a>
+            <user-icon_a
+              v-bind:imgPath="get_userInfo().imgPath"
+              id="userIcon">
+            </user-icon_a>
           </label>
           <input type="checkbox" id="userIcon_check" class="no-drag">
-          <user-drop-menu_m class="userIcon_drop_down no-drag" v-bind:userInfo="get_userInfo()"></user-drop-menu_m>
+          <user-drop-menu_m
+            class="userIcon_drop_down no-drag"
+            v-bind:userInfo="get_userInfo()"
+            v-on:dropDown_false="closedDropDown">
+          </user-drop-menu_m>
         </div>
       </div>
     </div>
@@ -65,6 +74,13 @@
         },
         get_userInfo(){
           return store.state.userInfo
+        },
+        go_search_action(keyword){
+          console.log(keyword)
+          this.$emit('go_search_action', keyword);
+        },
+        closedDropDown(){
+          document.getElementById("userIcon_check").checked = false;
         }
       },
       computed:{
@@ -86,15 +102,14 @@
     background-image: linear-gradient(to right, #209cff 0%, #68e0cf 100%);
     opacity: 0.9;
     height: 45px;
+    min-width: 400px;
   }
-
   .topNav_in{
-    width: 80%;
+    width: 1200px;
     margin: 0px auto;
     position: relative;
     transition: all 0.2s ease-out;
   }
-
   .lBtns_in{
     margin-top: 6px;
     margin-left: 6px;

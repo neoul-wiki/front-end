@@ -1,5 +1,5 @@
 <template>
-  <div class="drop_menu_m">
+  <div class="drop_menu_m" v-on:mouseleave="dropDown_false">
     <div class="drop_menu_info_m">
       <div class="drop_menu_user_icon_back">
         <span>이미지 변경</span>
@@ -11,7 +11,10 @@
       <div class="drop_menu_user_info">
         <ul class="drop_menu_info_list">
           <div class="drop_menu_info_name">
-            <div class="dmui_nik">{{userInfo.nikName}}</div><!--닉네임-->
+            <div class="dmui_nik">
+              {{userInfo.nikName}}
+              <i v-if="userInfo.id !== '@guest'" class="icon-edit"></i>
+            </div><!--닉네임-->
             <div class="dmui_id">{{userInfo.id}}</div><!--아이디-->
           </div>
           <div v-if="{disabled_content:userInfo.id === '@guest'}" class="disabled_content">
@@ -58,7 +61,12 @@
         }
       },
         name: "UserDropMenu",
-      components: {UserIcon_a}
+      components: {UserIcon_a},
+      methods:{
+        dropDown_false(){
+          this.$emit('dropDown_false')
+        }
+      }
     }
 </script>
 
@@ -75,6 +83,7 @@
     top: 45px;
     background: white;
     overflow: hidden;
+    z-index: 90;
   }
   #drop_menu_user_icon{
     width: 100px;
@@ -220,6 +229,8 @@
     width: 165px;
     height: 70px;
     border-radius: 5px;
+    cursor:pointer;
+    z-index: 99;
   }
   .disabled_content > span {
     position: absolute;

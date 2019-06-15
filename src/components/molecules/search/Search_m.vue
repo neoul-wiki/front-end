@@ -1,17 +1,26 @@
 <template>
   <div class="search_m">
     <div class="search_text_out">
-      <input type="text" id="search_text">
+      <input type="text"
+             id="search_text"
+             v-on:keyup.13="search_action">
     </div>
     <label class="search_label" for="search_text">
-      <i class="fas fa-search search_icon"></i>
+      <i class="fas fa-search search_icon" v-on:click="search_action"></i>
     </label>
   </div>
 </template>
 
 <script>
     export default {
-        name: "Search_m"
+        name: "Search_m",
+      methods:{
+          search_action(){
+            // console.log(document.getElementById("search_text").value);
+            this.$emit('search_action', document.getElementById("search_text").value);
+            document.getElementById("search_text").value = "";
+          }
+      }
     }
 </script>
 
@@ -45,5 +54,10 @@
   .search_icon{
     margin: 7px auto;
     color: #209cff;
+  }
+  @media (max-width: 499px){
+    .search_m{
+      width: 150px;
+    }
   }
 </style>
