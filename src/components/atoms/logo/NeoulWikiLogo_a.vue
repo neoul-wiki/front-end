@@ -1,13 +1,17 @@
 <template>
   <div class="neoul_logo">
-    <label class="neoul_logo_in">Neoul </label>
+    <label class="neoul_logo_in" v-on:click="go_mainPage">Neoul </label>
     <label class="neoul_logo_in text_wiki">Wiki</label>
   </div>
 </template>
 
 <script>
     export default {
-        name: "NeoulWikiLogo_a"
+      name: "NeoulWikiLogo_a",
+      methods:{
+        go_mainPage(){
+        }
+      }
     }
 </script>
 
@@ -25,6 +29,7 @@
     color: white;
     text-shadow: 1px 0px black;
     transition: all 0.2s ease;
+    cursor: pointer;
   }
   .text_wiki{
     transition: all 0.2s linear;
