@@ -52,22 +52,7 @@
           level:0,
           point:0,
           imgPath:"../../../../static/img/user/content03.png"
-        },
-        search_data:[
-          {date:'19.06.18', type:'게시판', name:'아이패드 산다 드디어'},
-          {date:'19.06.16', type:'문서', name:'아이패드 프로 3세대'},
-          {date:'19.06.15', type:'게시판', name:'아이패드 좋냐? ㅇㅅㅇ'},
-          {date:'19.06.14', type:'토론', name:'아이패드 vs 갤럭시 탭 어떤것이 더 좋은가?'},
-          {date:'19.06.14', type:'토론', name:'아이패드지 당연히'},
-          {date:'19.06.13', type:'문서', name:'아이패드'},
-          {date:'19.06.12', type:'게시판', name:'아이패드 사고싶어요'},
-          {date:'19.06.11', type:'게시판', name:'아이패드 얼마에요?'},
-          {date:'19.06.10', type:'게시판', name:'아이패드 애플에서 삼'},
-          {date:'19.06.10', type:'토론', name:'아이패드'},
-          {date:'19.06.10', type:'게시판', name:'아이패드는 존엄'},
-          {date:'19.06.10', type:'게시판', name:'아이패드사고싶다'},
-          {date:'19.06.10', type:'게시판', name:'아이패드 끄아아앙'},
-        ]
+        }
       },
       mutations:{
         set_userInfo:userInfo =>{
