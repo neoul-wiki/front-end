@@ -4,6 +4,9 @@
 
 ![현재 상태](./readmeImage/03.png)
 
+대략적인 업데이트 상태.
+디자인 수정 필요
+
 ## Build Setup
 
 ``` bash
