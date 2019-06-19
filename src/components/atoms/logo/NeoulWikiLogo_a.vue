@@ -7,6 +7,7 @@
 
 <script>
     export default {
+      props:['color'],
       name: "NeoulWikiLogo_a",
       methods:{
         go_mainPage(){
@@ -26,7 +27,6 @@
     font-size: 22px;
     margin: 0px auto;
     line-height: 44px;
-    color: white;
     text-shadow: 1px 0px black;
     transition: all 0.2s ease;
     cursor: pointer;

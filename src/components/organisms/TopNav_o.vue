@@ -149,6 +149,7 @@
   }
   .logo{
     float: left;
+    color: white;
   }
   #userIcon{
     width: 34px;

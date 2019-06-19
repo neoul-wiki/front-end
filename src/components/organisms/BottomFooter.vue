@@ -7,9 +7,7 @@
         <li>문의</li>
         <li>맨위로</li>
       </ul>
-      <div class="footerLogo_out">
-        <neoul-wiki-logo_a class="footerLogo"></neoul-wiki-logo_a>
-      </div>
+      <neoul-wiki-logo_a class="footerLogo"></neoul-wiki-logo_a>
     </div>
   </div>
 </template>
@@ -26,7 +24,7 @@
   #bottomFooter{
     width: 100%;
     height: max-content;
-    margin-top: 20px;
+    margin-top: 100px;
   }
   .footerLeft_out{
     width:1200px;
@@ -42,7 +40,7 @@
     float: left;
     padding: 5px 20px;
     margin: 5px 10px;
-    color: #999999;
+    color: #333333;
     cursor: pointer;
   }
   .footerLeft_out > ul > li:hover{
@@ -53,10 +51,8 @@
   .footerLogo{
     position: absolute;
     right: 0px;
-    background: #209cff;
-    padding: 0px 20px;
     border-radius: 10px;
-    border: 1px solid white;
+    color: #333333;
   }
   .no-drag {
     -ms-user-select: none;
