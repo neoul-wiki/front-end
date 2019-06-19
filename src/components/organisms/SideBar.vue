@@ -1,12 +1,12 @@
 <template>
   <div id="sideBar_o">
     <div class="sideBarTitle">
-      <span>최근 문서</span>
+      <span class="sideBarTitle_text">최근 문서</span>
       <span class="title_subText">더보기</span>
     </div>
     <div class="sideBarTitle_border"></div>
     <div class="sideBarContent">
-      <div v-for="(data, index) in sideBarData" :key="data" class="sideBarData" v-bind:class="{sideBar_borderBottom:(index+1) !== sideBarData.length}">
+      <div v-for="(data, index) in sideBarData" :key="data" class="sideBarData sideBar_borderBottom">
         <a class="sideBarData_title" :href="'/#/'+data.url">{{data.title}}</a>
         <a class="sideBarData_date">{{data.date}}</a>
       </div>
@@ -26,8 +26,6 @@
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    border-left: 1px solid #68e0cf;
-    border-right: 1px solid #68e0cf;
   }
   .sideBarTitle_border{
     background-image: linear-gradient(to right, #43bde8 0%, #68e0cf 100%);
@@ -43,6 +41,10 @@
   .sideBarContent{
     width: 100%;
     min-height: 357px;
+  }
+  .sideBarTitle_text{
+    font-size: 16px;
+    font-weight: bold;
   }
   .title_subText{
     font-size: 12px;
