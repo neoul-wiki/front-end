@@ -7,12 +7,6 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "a8ed7903f8f548da5a8084e1773f0bbb",
-      "css": "chat",
-      "code": 61501,
-      "src": "mfglabs"
-    },
-    {
       "uid": "31972e4e9d080eaa796290349ae6c1fd",
       "css": "users",
       "code": 59392,
@@ -53,6 +47,42 @@
       "css": "clipboard",
       "code": 59395,
       "src": "elusive"
+    },
+    {
+      "uid": "a8ed7903f8f548da5a8084e1773f0bbb",
+      "css": "chat",
+      "code": 61501,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "bcdc294bb787b15203b82f2be8096548",
+      "css": "star",
+      "code": 59396,
+      "src": "typicons"
+    },
+    {
+      "uid": "vyuzsm6wijlfwtjo4ifkoblfmsepk6g8",
+      "css": "star-filled",
+      "code": 59397,
+      "src": "typicons"
+    },
+    {
+      "uid": "3b00728aa97ad1a2581d414bd9d650bc",
+      "css": "heart",
+      "code": 59398,
+      "src": "typicons"
+    },
+    {
+      "uid": "hi76m8qggwn5lbl286oeqp64q0n8kusy",
+      "css": "heart-filled",
+      "code": 59399,
+      "src": "typicons"
+    },
+    {
+      "uid": "jqzwo6i8oicjbn049sh2856d8anrqoli",
+      "css": "edit-1",
+      "code": 59400,
+      "src": "typicons"
     }
   ]
 }

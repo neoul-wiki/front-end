@@ -126,6 +126,7 @@
     background-image: linear-gradient(to right, #209cff 0%, #68e0cf 100%);
     height: 45px;
     min-width: 400px;
+    z-index: 89;
   }
   .topNav_in{
     width: 1200px;
