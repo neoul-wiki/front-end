@@ -18,7 +18,7 @@
             <div class="dmui_id">{{userInfo.id}}</div><!--아이디-->
           </div>
           <div v-if="{disabled_content:userInfo.id === '@guest'}" class="disabled_content">
-            <span>로그인 해주세요!</span>
+            <router-link class="goToLogin" to="/login">로그인 해주세요!</router-link>
           </div>
           <div class="drop_menu_info_contents" v-bind:class="{dmic_disabled:userInfo.id === '@guest'}">
             <div class="drop_menu_info_content">
@@ -40,11 +40,12 @@
     <div class="drop_menu_buttons">
       <div class="drop_menu_buttons_in">
         <div class="drop_menu_update_btn">
-          <span>정보 수정</span>
+          <router-link class="link" v-if="userInfo.id === '@guest'" to="/signup">회원가입</router-link>
+          <router-link class="link" v-if="userInfo.id !== '@guest'" to="">정보 수정</router-link>
         </div>
         <div class="drop_menu_logout_btn">
-          <span v-if="userInfo.id !== '@guest'">로그아웃</span>
-          <span v-if="userInfo.id === '@guest'">로그인</span>
+          <router-link class="link" v-if="userInfo.id === '@guest'" to="/login">로그인</router-link>
+          <router-link class="link" v-if="userInfo.id !== '@guest'" to="">로그아웃</router-link>
         </div>
       </div>
     </div>
@@ -205,9 +206,13 @@
   .drop_menu_update_btn:hover{
     background: rgb(226, 248, 255);
   }
-  .drop_menu_update_btn > span {
+  .drop_menu_update_btn > .link {
     line-height: 40px;
     color: #005580;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
   .drop_menu_logout_btn{
     width: 50%;
@@ -217,9 +222,13 @@
   .drop_menu_logout_btn:hover{
     background: rgb(226, 248, 255);
   }
-  .drop_menu_logout_btn > span {
+  .drop_menu_logout_btn > .link {
     line-height: 40px;
     color: #005580;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
   .disabled_content{
     background: rgba(0,0,0,0.5);
@@ -232,12 +241,15 @@
     cursor:pointer;
     z-index: 99;
   }
-  .disabled_content > span {
+  .disabled_content > .goToLogin {
     position: absolute;
-    top: 25px;
-    left: 20px;
     font-weight: bold;
     color: white;
+    text-decoration: none;
+    display: block;
+    height: 45px;
+    width: 100%;
+    padding-top: 25px;
   }
   .dmic_disabled {
     opacity: 0.3;

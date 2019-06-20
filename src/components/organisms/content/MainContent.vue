@@ -24,7 +24,7 @@
       data(){
         return {
           name: 'main',
-          contentTitle: '아이패드 3세대 12.9',
+          contentTitle: '애플에서 2010년 4월 20일(북미 기준)에 첫 출시한 태블릿 컴퓨터.애플에서 2010년 4월 20일(북미 기준)에 첫 출시한',
           contentDate:'2019-06-18',
           contentText:'애플에서 2010년 4월 20일(북미 기준)에 첫 출시한 태블릿 컴퓨터. 2019년 기준 최신작은 iPad(6세대), iPad Pro(3세대), iPad Air(3세대)와 iPad mini(5세대).\n' +
             '\n' +
@@ -76,5 +76,18 @@
     min-height: 200px;
     /*background: #999999;*/
     margin-left: 10px;
+  }
+  @media (max-width: 1200px) {
+    .contentBox{
+      width: 100%;
+    }
+    .cb_content{
+      width:100%;
+    }
+  }
+  @media (max-width: 950px) {
+    .cb_sideBar{
+      display: none;
+    }
   }
 </style>

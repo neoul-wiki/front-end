@@ -57,6 +57,7 @@
 <style scoped>
   #contentTitle{
     width: 100%;
+    min-width: 500px;
   }
   .titleBox{
     width: 100%;
@@ -83,8 +84,8 @@
     cursor: pointer;
   }
   .tb_rightBtn:hover{
-    border-bottom: 2px solid #209cff;
-    color: #0088cc;
+    border-bottom: 2px solid #4bc5e1;
+    color: #4bc5e1;
     font-weight: bold;
   }
 
@@ -115,7 +116,9 @@
     left: 0px;
   }
   .tb_center{
-    width: 630px;
+    width: 100%;
+    min-width: 450px;
+    max-width: 630px;
     margin: 0px auto 8px auto;
     min-height: 40px;
     height: auto;
@@ -133,5 +136,25 @@
     -webkit-user-select: none;
     -khtml-user-select: none;
     user-select:none;
+  }
+  @media (max-width: 1200px){
+    .tb_center{
+      margin-bottom: 40px;
+    }
+  }
+  @media (max-width: 950px){
+    .tb_center{
+      width: 630px;
+      margin-bottom: 40px;
+    }
+    .contentTitleBottomLine{
+      width:95%;
+    }
+  }
+  @media (max-width: 650px) {
+    .tb_center{
+      width: 90%;
+      margin-bottom: 40px;
+    }
   }
 </style>

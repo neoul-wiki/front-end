@@ -23,11 +23,12 @@
 <style scoped>
   #bottomFooter{
     width: 100%;
-    height: max-content;
+    height: 100px;
     margin-top: 100px;
   }
   .footerLeft_out{
-    width:1200px;
+    max-width:1200px;
+    width: 90%;
     margin: 0px auto;
     position:relative;
     border-top: 1px solid lightblue;

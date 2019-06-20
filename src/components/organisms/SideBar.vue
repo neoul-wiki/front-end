@@ -7,7 +7,7 @@
     <div class="sideBarTitle_border"></div>
     <div class="sideBarContent">
       <div v-for="(data, index) in sideBarData" :key="data" class="sideBarData sideBar_borderBottom">
-        <a class="sideBarData_title" :href="'/#/'+data.url">{{data.title}}</a>
+        <router-link class="sideBarData_title" :to="'/'+data.url">{{data.title}}</router-link>
         <a class="sideBarData_date">{{data.date}}</a>
       </div>
     </div>
@@ -16,6 +16,10 @@
 
 <script>
     export default {
+      /*
+      * 넘어오는 데이터
+      * sideBarData : title(제목), date(시간), url(주소)
+      * */
       props:['sideBarData'],
         name: "SideBar"
     }
@@ -65,9 +69,15 @@
     width: 82%;
     display: inline-flex;
     color: #999999;
+    overflow:hidden;
+    height: 20px;
   }
   .sideBarData_date{
     right: 0px;
-
+  }
+  @media (max-width: 1200px) {
+    .sideBarData{
+      display: flex;
+    }
   }
 </style>

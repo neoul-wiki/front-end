@@ -2,10 +2,12 @@
 
 > neoul wiki front
 
+
+메인페이지
 ![현재 상태](./readmeImage/03.png)
 
-대략적인 업데이트 상태.
-디자인 수정 필요
+로그인 페이지
+![현재 상태](./readmeImage/04.png)
 
 ## Build Setup
 

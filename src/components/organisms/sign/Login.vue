@@ -30,7 +30,7 @@
 <style scoped>
   #login_o{
     width: 100%;
-    min-height: 800px;
+    min-height: 500px;
     position: relative;
     box-sizing: border-box;
     font-family: 'Do Hyeon', sans-serif;
@@ -68,8 +68,8 @@
     position: relative;
     display: inline;
     background: white;
-    line-height: 34px;
-    padding: 0px 15px;
+    line-height: 44px;
+    padding: 0px 20px;
     border-radius: 15px;
     border:1px solid white;
     transition: 0.1s all ease;
@@ -85,6 +85,12 @@
     border: 0px;
     transition: 0.1s all ease;
   }
+  .inputWrapper >input:focus ~ .id_label{
+    width: 50px;
+  }
+  .inputWrapper >input:focus ~ .pw_label{
+    width: 130px;
+  }
   .inputWrapper >input:focus{
     border: 1px solid #cccccc;
   }
@@ -98,6 +104,13 @@
     line-height: 22px;
     border: 0px;
   }
+  .inputWrapper >input:valid ~ .id_label{
+    width: 50px;
+  }
+  .inputWrapper >input:valid ~ .pw_label{
+    width: 130px;
+  }
+
   .inputWrapper >input:valid{
     border: 1px solid #68e0cf;
   }
@@ -119,6 +132,11 @@
     width: 100%;
     padding: 5px;
     letter-spacing: 4px;
+    cursor: pointer;
+  }
+  .inputWrapper > label:hover{
+    border: 1px solid #68e0cf;
+    transition: 0.5s all ease;
   }
   .btnWrapper{
     width: 90%;
@@ -162,6 +180,11 @@
   #inputPw{
     letter-spacing: 13px;
   }
+  .id_label{
 
+  }
+  .pw_label{
+
+  }
 </style>
 
