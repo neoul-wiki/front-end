@@ -8,30 +8,30 @@
           </div>
           <div class="inputBox">
             <label for="ib_id">아이디</label>
-            <input type="text" class="necessary ib_notEml" id="ib_id" autocomplete="off" required="required" @focusout="idCheck">
+            <input type="text" class="necessary ib_notEml" id="ib_id" autocomplete="off" required="required" @keyup="id()">
           </div>
           <span class="explanation" id="id_ex">로그인할때 사용할 아이디입니다.</span>
           <div class="inputBox">
             <label for="ib_nik">닉네임</label>
-            <input type="text" id="ib_nik" class="ib_notEml" required="required" @focusout="nikCheck">
+            <input type="text" id="ib_nik" class="ib_notEml" required="required" @keyup="nik()">
           </div>
           <span class="explanation" id="nik_ex">글을쓰거나 활동을 할때 남들에게 보여줄 이름입니다.<br/> 이 창을 비워두시면 아이디가 닉네임이 됩니다.</span>
           <div class="inputBox">
             <label for="ib_pw">비밀번호</label>
-            <input type="password" class="necessary ib_notEml" id="ib_pw" required="required">
+            <input type="password" class="necessary ib_notEml" id="ib_pw" required="required" @keyup="pwd">
           </div>
           <span class="explanation" id="pw_ex">로그인할때 사용할 비밀번호입니다.</span>
           <div class="inputBox">
             <label for="ib_pwck">비밀번호 확인</label>
-            <input type="password"class="necessary ib_notEml" id="ib_pwck" required="required">
+            <input type="password" class="necessary ib_notEml" id="ib_pwck" required="required" @keyup="pwdCheck">
           </div>
           <span class="explanation" id="pwck_ex">위의 비밀번호와 똑같은 텍스트를 입력해주세요.</span>
           <div class="inputBox">
             <label for="ib_eml">이메일</label>
-            <input type="email" id="ib_eml">
+            <input type="text" class="ib_notEml" id="ib_eml" required="required" @keyup="emlCheck">
           </div>
           <span class="explanation" id="eml_ex">이메일 인증을 위한 입력란입니다. <br/>이메일 인증을 하지 않으면 글쓰기 및 게시글 작성 권한이 없습니다.</span>
-          <div id="signup_btn" @click="submitForm">회원가입</div>
+          <div id="signup_btn" @click="">회원가입</div>
         </div>
       </div>
     </div>
@@ -42,42 +42,28 @@
     export default {
       data(){
         return {
-
         }
       },
       name: "SignUp",
       methods: {
-        // 닉네임 체크
-        nikCheck(){
-          let target_ex = document.getElementById("nik_ex");
-          let target = document.getElementById("ib_nik");
-
-          let axiosResult = 0;
-          if(target.value.length < 2 || target.value.length > 10){
-            target_ex.innerText = "닉네임은 2자 이상, 10자 이하여야 합니다."
-            target_ex.classList = "explanation ex_no";
-            return;
-          }
-          if(axiosResult > 0){
-            // 사용 불가
-            target_ex.innerText = "이미 사용중인 닉네임 입니다."
-            target_ex.classList = "explanation ex_no";
-          }else if(axiosResult === 0){
-            console.log("닉네임 체크 테스트 무조건 false(중복없음)");
-            target_ex.innerText = "사용 가능한 닉네임 입니다."
-            target_ex.classList = "explanation ex_ok";
-          }else{
-            console.log("데이터 처리 오류.")
-          }
-        },
-        // 아이디 체크
-        // 4~20자 영문, 숫자(선택적)만 사용할 수 있음.
-        idCheck(){
+        id(){
           let target_ex = document.getElementById("id_ex");
           let target = document.getElementById("ib_id");
 
+          let srt = this.pwInputValueCheck(target.value);
+
           let axiosResult = 0;
-          if(target.value.length < 4 || target.value.length > 20){
+          if(target.value === ""){
+            target_ex.innerText = "아이디를 입력해주세요.";
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          else if(srt !== null){
+            target_ex.innerText = "닉네임에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          else if(target.value.length < 4 || target.value.length > 20){
             target_ex.innerText = "아이디는 4자 이상, 20자 이하 영문및 숫자로 구성되어야 합니다."
             target_ex.classList = "explanation ex_no";
             return;
@@ -93,14 +79,125 @@
           }else{
             console.log("데이터 처리 오류.")
           }
-        },
-        submitForm() {
-          const srt = this.pwInputValueCheck();
-          const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+        },//id()
+        // 닉네임 체크
+        nik(){
+          let target_ex = document.getElementById("nik_ex");
+          let target = document.getElementById("ib_nik");
+          console.log("target.value: "+target.value);
+          let srt = this.pwInputValueCheck(target.value);
+          let axiosResult = 0;
+          if(target.value === ""){
+            return;
+          }
+          else if(srt !== null){
+            target_ex.innerText = "닉네임에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          else if(this.pwcheck(target.value)){
+            target_ex.innerText = "닉네임에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          else if(target.value.length < 2 || target.value.length > 10){
+            target_ex.innerText = "닉네임은 2자 이상, 10자 이하 영문, 한글, 숫자 등으로 구성되어야 합니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          if(axiosResult > 0){
+            // 사용 불가
+            target_ex.innerText = "이미 사용중인 닉네임 입니다."
+            target_ex.classList = "explanation ex_no";
+          }else if(axiosResult === 0){
+            console.log("닉네임 체크 테스트 무조건 false(중복없음)");
+            target_ex.innerText = "사용 가능한 닉네임 입니다."
+            target_ex.classList = "explanation ex_ok";
+          }else{
+            console.log("데이터 처리 오류.")
+          }
+        },//nik()
+        // 비밀번호 체크
+        pwd(){
+          let target_id = document.getElementById("ib_id");
+          let target_pw = document.getElementById("ib_pw");
+          let target_ex = document.getElementById("pw_ex");
 
+          if (target_pw.value === "") {
+            // 입력창이 비워져있을땐 아무것도 안함.
+          } else {
+            if (target_pw.value === "") {
+              target_ex.innerText = "비밀번호를 입력해주세요.";
+              target_ex.classList = "explanation ex_no";
+              return false;
+            } else if (target_pw.value.length < 8 || target_pw.value.length > 20) {
+              target_ex.innerText = "비밀번호는 8자 이상 20자 이내로 입력하여 주십시오";
+              target_ex.classList = "explanation ex_no";
+              return false;
+            } else if (this.pwcheck(target_pw.value)) {
+              target_ex.innerText = "비밀번호에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.";
+              target_ex.classList = "explanation ex_no";
+              return false;
+            } else if (this.checkPwdEnd(target_pw.value)) {
+              target_ex.innerText = "비밀번호는 영문, 숫자, 특수문자의 조합으로 구성되어야 하며\n최소 1자리 이상의 특수문자가 포함되어야 합니다";
+              target_ex.classList = "explanation ex_no";
+              return false;
+            } else if (this.idValuePw(target_id.value, target_pw.value)) {
+              target_ex.innerText = "비밀번호가 아이디와 동일하거나 3자리 이상 일치할 경우 사용할 수 없습니다.";
+              target_ex.classList = "explanation ex_no";
+              return false;
+            } else {
+              target_ex.innerText = "사용 가능한 비밀번호입니다.";
+              target_ex.classList = "explanation ex_ok";
+            }
+          }
+        },//pwd()
+        // 비밀번호 확인 체크
+        pwdCheck(){
+          let target_pw = document.getElementById("ib_pw");
+          let target_pwck = document.getElementById("ib_pwck");
+          let target_ex = document.getElementById("pwck_ex");
+
+          if(target_pwck.value === ""){
+
+          }
+          else if(target_pw.value === target_pwck.value){
+            target_ex.innerText = "비밀번호가 일치합니다."
+            target_ex.classList = "explanation ex_ok";
+            return;
+          } else{
+            target_ex.innerText = "비밀번호가 일치하지 않습니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+        },//pwdCheck()
+        // 이메일 유효성 체크
+        emlCheck(){
+          let target = document.getElementById("ib_eml");
+          let target_ex = document.getElementById("eml_ex");
+          if(target.value === ""){
+
+          }
+          else if(this.emailCheck(target.value)){
+            target_ex.innerText = "이메일 형식이 올바르지 않습니다."
+            target_ex.classList = "explanation ex_no";
+            return;
+          }
+          else{
+            target_ex.innerText = "사용할 수 있는 이메일 형식입니다."
+            target_ex.classList = "explanation ex_ok";
+            return;
+          }
+        },// emailCheck()
+        // 회원가입 버튼 눌렀을때 체크
+        submitForm() {
           let target_pw = document.getElementById("ib_pw");
           let target_pwck = document.getElementById("ib_pwck");
           let target_id = document.getElementById("ib_id");
+
+          const srt = this.pwInputValueCheck(target_pw.value);
+          const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
 
           if (target_id.value == "") {
             alert("아이디를 입력해주세요");
@@ -123,23 +220,23 @@
               alert('비밀번호는 8자 이상 20자 이내로 입력하여 주십시오')
               target_pw.focus();
               return;
-            } else if (this.pwcheck()) {
+            } else if (this.pwcheck(target_pw.value)) {
               alert("비밀번호에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.");
               target_pw.focus();
               return;
-            } else if (this.checkPwdEnd()) {
+            } else if (this.checkPwdEnd(target_pw.value)) {
               alert('비밀번호는 영문, 숫자, 특수문자의 조합으로 구성되어야 하며\n최소 1자리 이상의 특수문자가 포함되어야 합니다')
               target_pw.focus();
               return;
-            } else if (this.pwContinue()) {
+            } else if (this.pwContinue(target_pw.value)) {
               alert("비밀번호에 3자리 이상 연속된 문자(예:abc)는 사용할 수 없습니다.");
               target_pw.focus();
               return;
-            } else if (this.pwSame()) {
+            } else if (this.pwSame(target_pw.value)) {
               alert("비밀번호에 3자리 이상 연속된 동일한 문자(예:aaa)는 사용할 수 없습니다.");
               target_pw.focus();
               return;
-            } else if (this.idValuePw()) {
+            } else if (this.idValuePw(target_id.value, target_pw.value)) {
               alert("비밀번호가 아이디와 동일하거나 3자리 이상 일치할 경우 사용할 수 없습니다.");
               target_pw.focus();
               return;
@@ -169,14 +266,20 @@
           }
 
         },
-        // 비밀번호에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.
-        pwcheck() {
-          let digits = "\`~!@$%^&*-=\\_+,.?;:\"[]{}0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // 0 들어온 데이터가 Null 이면 true 를 리턴.
+        nullCheck(value){
+          if(value === "" || value === undefined || value === null){
+            return true;
+          }
+          return false;
+        },
+        // target 에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.
+        // 특수문자 있을 시 true
+        pwcheck(target) {
+          const digits = "\`~!@$%^&*-=\\_+,.?;:\"[]{}0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
           let j = 0;
 
-          let target_pw = document.getElementById("ib_pw");
-
-          let valpw = target_pw.value;
+          let valpw = target;
 
           for (let i = 0; i < valpw.length; i++) {
             if (digits.indexOf(valpw.charAt(i)) < 0) {
@@ -189,33 +292,31 @@
           return false;
         },
         // 비밀번호는 영문, 숫자, 특수문자의 조합으로 구성되어야 하며\n최소 1자리 이상의 특수문자가 포함되어야 합니다
-        checkPwdEnd() {
-          let target_pw = document.getElementById("ib_pw");
+        // 특문이 하나도 없으면 true (있어야함)
+        checkPwdEnd(target) {
 
           let flag = false;
           let intCount = 0;
           let charCount = 0;
           let varcharCount = 0;
-          intCount = this.IntCount(target_pw.value);
-          charCount = this.CharCount(target_pw.value);
-          varcharCount = this.VarCharCount(target_pw.value);
+          intCount = this.IntCount(target);
+          charCount = this.CharCount(target);
+          varcharCount = this.VarCharCount(target);
           if ((intCount == 0 || charCount == 0 || varcharCount == 0)) {
             flag = true;
           }
           return flag;
         },
         // 비밀번호에 3자리 이상 연속된 문자(예:abc)는 사용할 수 없습니다.
-        pwContinue() {   //연속된 문자, 숫자 체크(3자리)
-
-          let target_pw = document.getElementById("ib_pw");
+        pwContinue(target) {   //연속된 문자, 숫자 체크(3자리)
 
           let cnt = 0;
           let cnt2 = 0;
           let tmp = "";
           let tmp2 = "";
           let tmp3 = "";
-          let validpw = target_pw.value;
-          for (i = 0; i < validpw.length; i++) {
+          let validpw = target;
+          for (let i = 0; i < validpw.length; i++) {
             tmp = validpw.charAt(i);
             tmp2 = validpw.charAt(i + 1);
             tmp3 = validpw.charAt(i + 2);
@@ -234,12 +335,10 @@
           }
         },
         // 비밀번호에 3자리 이상 연속된 동일한 문자(예:aaa)는 사용할 수 없습니다.
-        pwSame() {   //동일 문자, 숫자 체크(3자리)
-          let target_pw = document.getElementById("ib_pw");
-
+        pwSame(target) {   //동일 문자, 숫자 체크(3자리)
           let tmp = "";
           let cnt = 0;
-          let validpw = target_pw.value;
+          let validpw = target;
           for (let i = 0; i < validpw.length; i++) {
             tmp = validpw.charAt(i);
             if (tmp == validpw.charAt(i + 1) && tmp == validpw.charAt(i + 2)) {
@@ -253,15 +352,13 @@
           }
         },
         // 비밀번호가 아이디와 동일하거나 3자리 이상 일치할 경우 사용할 수 없습니다.
-        idValuePw() {
-          let target_pw = document.getElementById("ib_pw");
-          let target_id = document.getElementById("ib_id");
+        idValuePw(target_id,target_pw) {
 
-          let validid = target_id.value;
-          let validpw = target_pw.value;
+          let validid = target_id;
+          let validpw = target_pw;
           let tmp = "";
           let cnt = 0;
-          for (i = 0; i < validid.length - 2; i++) {
+          for (let i = 0; i < validid.length - 2; i++) {
             tmp = validid.charAt(i) + validid.charAt(i + 1) + validid.charAt(i + 2);
             if (validpw.indexOf(tmp) > -1) {
               cnt = cnt + 1;
@@ -273,12 +370,11 @@
             return false;
           }
         },
-        // "비밀번호에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
-        pwInputValueCheck() {  //특정문자 체크
-          let InputValue = ["love", "happy", "qwer", "asdf", "zxcv", "test", "gpin", "ipin"];
-          let target_pw = document.getElementById("ib_pw");
+        // "타겟에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
+        pwInputValueCheck(target) {  //특정문자 체크
+          const InputValue = ["love", "happy", "qwer", "asdf", "zxcv", "test", "gpin", "ipin"];
 
-          let validpw = target_pw.value;
+          let validpw = target;
           for (let i = 0; i < InputValue.length; i++) {
             if (validpw.indexOf(InputValue[i]) >= 0) {
               return InputValue[i];
@@ -286,8 +382,9 @@
           }
           return null;
         },
-        IntCount(aInputBox) {  // aInputBox에 있는 숫자의 갯수 return
-          let comp = "1234567890";
+        // aInputBox에 있는 숫자의 갯수 return
+        IntCount(aInputBox) {
+          const comp = "1234567890";
           let aInputBoxValue = aInputBox;
           let len = aInputBoxValue.length;
           let count = 0;
@@ -300,8 +397,9 @@
           }
           return count;
         },
-        CharCount(aInputBox) {  // aInputBox에 있는 문자의 갯수 return
-          let comp = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // aInputBox에 있는 문자의 갯수 return
+        CharCount(aInputBox) {
+          const comp = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
           let aInputBoxValue = aInputBox;
           let len = aInputBoxValue.length;
           let count = 0;
@@ -314,8 +412,9 @@
           }
           return count;
         },
-        VarCharCount(aInputBox) {  // aInputBox에 있는 특수문자의 갯수 return
-          let comp = "\`~!@#$%^&*-_+=\\,./?:;\"{[}]";
+        // aInputBox에 있는 특수문자의 갯수 return
+        VarCharCount(aInputBox) {
+          const comp = "\`~!@#$%^&*-_+=\\,./?:;\"{[}]";
           let aInputBoxValue = aInputBox;
           let len = aInputBoxValue.length;
           let count = 0;
@@ -328,7 +427,12 @@
           }
           return count;
         },
-      }
+        // 이메일 유효성검사. 유효성검사 통과 시 false 리턴.
+        emailCheck( email ) {
+          const regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+          return !(email != '' && email != 'undefined' && regex.test(email));
+        },
+      },
     }
 </script>
 
@@ -371,12 +475,12 @@
   .ib_notEml:valid{
     border: 2px solid #209cff;
   }
-  #ib_eml{
-    border: 2px solid #209cff;
-  }
-  #ib_eml:valid{
-    border:2px solid #cccccc;
-  }
+  /*#ib_eml{*/
+  /*  border: 2px solid #209cff;*/
+  /*}*/
+  /*#ib_eml:valid{*/
+  /*  border:2px solid #cccccc;*/
+  /*}*/
   .inputBox > label {
     display: inline-block;
     width: 120px;
