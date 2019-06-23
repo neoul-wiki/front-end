@@ -18,7 +18,7 @@
           <span class="explanation" id="nik_ex">글을쓰거나 활동을 할때 남들에게 보여줄 이름입니다.<br/> 이 창을 비워두시면 아이디가 닉네임이 됩니다.</span>
           <div class="inputBox">
             <label for="ib_pw">비밀번호</label>
-            <input type="password" class="necessary ib_notEml" id="ib_pw" required="required" @keyup="pwd">
+            <input type="password" class="necessary ib_notEml" id="ib_pw" required="required" @keyup="pwd();pwdCheck()" @focus="pwdCheck">
           </div>
           <span class="explanation" id="pw_ex">로그인할때 사용할 비밀번호입니다.</span>
           <div class="inputBox">
@@ -31,7 +31,7 @@
             <input type="text" class="ib_notEml" id="ib_eml" required="required" @keyup="emlCheck">
           </div>
           <span class="explanation" id="eml_ex">이메일 인증을 위한 입력란입니다. <br/>이메일 인증을 하지 않으면 글쓰기 및 게시글 작성 권한이 없습니다.</span>
-          <div id="signup_btn" @click="">회원가입</div>
+          <div id="signup_btn" @click="submitForm">회원가입</div>
         </div>
       </div>
     </div>
@@ -42,6 +42,12 @@
     export default {
       data(){
         return {
+          // 0: 없음 / 1: 있는데 데이터 이상함 / 2: 데이터 유효성 ㅇ
+          _idCheck:0,
+          _nikCheck:0,
+          _pwCheck:0,
+          _pwckCheck:0,
+          _emlCheck:0
         }
       },
       name: "SignUp",
@@ -52,31 +58,49 @@
 
           let srt = this.pwInputValueCheck(target.value);
 
+          let exText = "";
+
           let axiosResult = 0;
-          if(target.value === ""){
-            target_ex.innerText = "아이디를 입력해주세요.";
+          if(target.value === ""
+            || target.value === undefined
+            || target.value === " "
+            || target.value === null){
+            exText = "아이디를 입력해주세요.";
+            this._idCheck = 0;
+            target.value = ""
+            target_ex.innerText = exText;
             target_ex.classList = "explanation ex_no";
             return;
           }
           else if(srt !== null){
-            target_ex.innerText = "닉네임에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
+            exText = "아이디에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다.";
+            target_ex.innerText = exText;
             target_ex.classList = "explanation ex_no";
+            this._idCheck = 1;
             return;
           }
           else if(target.value.length < 4 || target.value.length > 20){
-            target_ex.innerText = "아이디는 4자 이상, 20자 이하 영문및 숫자로 구성되어야 합니다."
+            exText = "아이디는 4자 이상, 20자 이하 영문및 숫자로 구성되어야 합니다.";
+            target_ex.innerText = exText;
             target_ex.classList = "explanation ex_no";
+            this._idCheck = 1;
             return;
           }
           if(axiosResult > 0){
             // 사용 불가
-            target_ex.innerText = "이미 사용중인 아이디 입니다."
+            exText = "이미 사용중인 아이디 입니다.";
+            this._idCheck = 1;
+            target_ex.innerText = exText
             target_ex.classList = "explanation ex_no";
           }else if(axiosResult === 0){
             console.log("아이디 체크 테스트 무조건 false(중복없음)");
-            target_ex.innerText = "사용 가능한 아이디 입니다."
+            exText = "사용 가능한 아이디 입니다.";
+            this._idCheck = 2;
+            target_ex.innerText = exText
             target_ex.classList = "explanation ex_ok";
           }else{
+            this._idCheck = 1;
+            exText = "데이터 처리 오류.";
             console.log("데이터 처리 오류.")
           }
         },//id()
@@ -87,34 +111,45 @@
           console.log("target.value: "+target.value);
           let srt = this.pwInputValueCheck(target.value);
           let axiosResult = 0;
-          if(target.value === ""){
+          if(target.value === ""
+            || target.value === undefined
+            || target.value === " "
+            || target.value === null){
+            target = "";
+            this._nikCheck = 0;
             return;
           }
           else if(srt !== null){
             target_ex.innerText = "닉네임에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다."
             target_ex.classList = "explanation ex_no";
+            this._nikCheck = 1;
             return;
           }
           else if(this.pwcheck(target.value)){
             target_ex.innerText = "닉네임에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다."
             target_ex.classList = "explanation ex_no";
+            this._nikCheck = 1;
             return;
           }
           else if(target.value.length < 2 || target.value.length > 10){
             target_ex.innerText = "닉네임은 2자 이상, 10자 이하 영문, 한글, 숫자 등으로 구성되어야 합니다."
             target_ex.classList = "explanation ex_no";
+            this._nikCheck = 1;
             return;
           }
           if(axiosResult > 0){
             // 사용 불가
             target_ex.innerText = "이미 사용중인 닉네임 입니다."
             target_ex.classList = "explanation ex_no";
+            this._nikCheck = 1;
           }else if(axiosResult === 0){
             console.log("닉네임 체크 테스트 무조건 false(중복없음)");
+            this._nikCheck = 2;
             target_ex.innerText = "사용 가능한 닉네임 입니다."
             target_ex.classList = "explanation ex_ok";
           }else{
             console.log("데이터 처리 오류.")
+            this._nikCheck = 1;
           }
         },//nik()
         // 비밀번호 체크
@@ -125,28 +160,39 @@
 
           if (target_pw.value === "") {
             // 입력창이 비워져있을땐 아무것도 안함.
+            this._pwCheck = 0;
           } else {
-            if (target_pw.value === "") {
+            if (target_pw.value === ""
+              || target_pw.value === undefined
+              || target_pw.value === " "
+              || target_pw.value === null) {
+              target_pw.value = "";
+              this._pwCheck = 0;
               target_ex.innerText = "비밀번호를 입력해주세요.";
               target_ex.classList = "explanation ex_no";
               return false;
             } else if (target_pw.value.length < 8 || target_pw.value.length > 20) {
+              this._pwCheck = 1;
               target_ex.innerText = "비밀번호는 8자 이상 20자 이내로 입력하여 주십시오";
               target_ex.classList = "explanation ex_no";
               return false;
             } else if (this.pwcheck(target_pw.value)) {
+              this._pwCheck = 1;
               target_ex.innerText = "비밀번호에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.";
               target_ex.classList = "explanation ex_no";
               return false;
             } else if (this.checkPwdEnd(target_pw.value)) {
+              this._pwCheck = 1;
               target_ex.innerText = "비밀번호는 영문, 숫자, 특수문자의 조합으로 구성되어야 하며\n최소 1자리 이상의 특수문자가 포함되어야 합니다";
               target_ex.classList = "explanation ex_no";
               return false;
             } else if (this.idValuePw(target_id.value, target_pw.value)) {
+              this._pwCheck = 1;
               target_ex.innerText = "비밀번호가 아이디와 동일하거나 3자리 이상 일치할 경우 사용할 수 없습니다.";
               target_ex.classList = "explanation ex_no";
               return false;
             } else {
+              this._pwCheck = 2;
               target_ex.innerText = "사용 가능한 비밀번호입니다.";
               target_ex.classList = "explanation ex_ok";
             }
@@ -159,13 +205,17 @@
           let target_ex = document.getElementById("pwck_ex");
 
           if(target_pwck.value === ""){
-
+            this._pwckCheck = 0;
+            target_ex.innerText = "위의 비밀번호와 똑같은 텍스트를 입력해주세요."
+            target_ex.classList = "explanation";
           }
           else if(target_pw.value === target_pwck.value){
+            this._pwckCheck = 2;
             target_ex.innerText = "비밀번호가 일치합니다."
             target_ex.classList = "explanation ex_ok";
             return;
           } else{
+            this._pwckCheck = 1;
             target_ex.innerText = "비밀번호가 일치하지 않습니다."
             target_ex.classList = "explanation ex_no";
             return;
@@ -176,14 +226,16 @@
           let target = document.getElementById("ib_eml");
           let target_ex = document.getElementById("eml_ex");
           if(target.value === ""){
-
+            this._emlCheck = 0;
           }
           else if(this.emailCheck(target.value)){
+            this._emlCheck = 1;
             target_ex.innerText = "이메일 형식이 올바르지 않습니다."
             target_ex.classList = "explanation ex_no";
             return;
           }
           else{
+            this._emlCheck = 2;
             target_ex.innerText = "사용할 수 있는 이메일 형식입니다."
             target_ex.classList = "explanation ex_ok";
             return;
@@ -191,78 +243,57 @@
         },// emailCheck()
         // 회원가입 버튼 눌렀을때 체크
         submitForm() {
+          let target_id = document.getElementById("ib_id");
           let target_pw = document.getElementById("ib_pw");
           let target_pwck = document.getElementById("ib_pwck");
-          let target_id = document.getElementById("ib_id");
+          let target_nik = document.getElementById("ib_nik");
+          let target_eml = document.getElementById("ib_eml");
 
-          const srt = this.pwInputValueCheck(target_pw.value);
-          const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-
-
-          if (target_id.value == "") {
-            alert("아이디를 입력해주세요");
+          if (target_id.value === ""
+            || target_id.value === undefined
+            || target_id.value === " "
+            || target_id.value === null) {
+            alert("아이디를 입력해주세요.");
+            target_id.focus();
+            return;
+          } else if (this._idCheck === 1) {
+            alert("아이디가 올바르지 않습니다.");
+            target_id.focus();
+            return;
+          }
+          else if (target_pw.value === ""
+            || target_pw.value === undefined
+            || target_pw.value === " "
+            || target_pw.value === null) {
+            alert("비밀번호를 입력해 주세요.");
+            target_pw.focus();
+            return;
+          } else if (this._pwCheck === 1) {
+            alert("비밀번호가 올바르지 않습니다.");
             target_pw.focus();
             return;
           }
-
-          if (target_pw.value == "" && target_pwck.value == "") {
-
-          } else {
-            if (target_pw.value === "") {
-              alert("비밀번호를 입력해 주세요.");
-              target_pw.focus();
-              return;
-            } else if (target_pwck.value == "") {
-              alert("비밀번호 확인을 입력해 주세요.");
-              target_pwck.focus();
-              return;
-            } else if (target_pw.value.length < 8 || target_pw.value.length > 20) {
-              alert('비밀번호는 8자 이상 20자 이내로 입력하여 주십시오')
-              target_pw.focus();
-              return;
-            } else if (this.pwcheck(target_pw.value)) {
-              alert("비밀번호에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.");
-              target_pw.focus();
-              return;
-            } else if (this.checkPwdEnd(target_pw.value)) {
-              alert('비밀번호는 영문, 숫자, 특수문자의 조합으로 구성되어야 하며\n최소 1자리 이상의 특수문자가 포함되어야 합니다')
-              target_pw.focus();
-              return;
-            } else if (this.pwContinue(target_pw.value)) {
-              alert("비밀번호에 3자리 이상 연속된 문자(예:abc)는 사용할 수 없습니다.");
-              target_pw.focus();
-              return;
-            } else if (this.pwSame(target_pw.value)) {
-              alert("비밀번호에 3자리 이상 연속된 동일한 문자(예:aaa)는 사용할 수 없습니다.");
-              target_pw.focus();
-              return;
-            } else if (this.idValuePw(target_id.value, target_pw.value)) {
-              alert("비밀번호가 아이디와 동일하거나 3자리 이상 일치할 경우 사용할 수 없습니다.");
-              target_pw.focus();
-              return;
-            } else if (srt != null) {
-              alert("비밀번호에 \"" + srt + "\" 라는 문자는 사용할 수 없습니다.");
-              target_pw.focus();
-              return;
-            } else if (target_pw.value == target_id.value) {
-              alert('비밀번호는 아이디와 동일할 수 없습니다')
-              target_pw.value = "";
-              target_pwck.value = "";
-              target_pw.focus();
-              return;
-            } else if (target_pw.value != target_pwck.value) {
-              alert('비밀번호와\n비밀번호 확인이\n맞지않습니다')
-              target_pw.value = "";
-              target_pwck.value = "";
-              target_pw.focus();
-              return;
-            } else if (target_pw.value == target_pw.value) {
-              alert('현재 비밀번호와 변경 비밀번호가 동일합니다.')
-              target_pw.value = "";
-              target_pwck.value = "";
-              target_pw.focus();
-              return;
-            }
+          else if (target_pwck.value === ""
+            || target_pwck.value === undefined
+            || target_pwck.value === " "
+            || target_pwck.value === null) {
+            alert("비밀번호 확인을 입력해 주세요.");
+            target_pwck.focus();
+            return;
+          } else if (this._pwckCheck === 1) {
+            alert("비밀번호 확인이 올바르지 않습니다.");
+            target_pwck.focus();
+            return;
+          }
+          else if (this._nikCheck === 1) {
+            alert("닉네임이 지정된 서식에 맞지 않습니다.");
+            target_nik.focus();
+            return;
+          }
+          else if (this._emlCheck === 1) {
+            alert("이메일이 지정된 서식에 맞지 않습니다.");
+            target_eml.focus();
+            return;
           }
 
         },
