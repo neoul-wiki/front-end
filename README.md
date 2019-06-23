@@ -4,10 +4,13 @@
 
 
 메인페이지
-![현재 상태](./readmeImage/03.png)
+![메인 페이지](./readmeImage/03.png)
 
 로그인 페이지
-![현재 상태](./readmeImage/04.png)
+![로그인 페이지](./readmeImage/04.png)
+
+회원가입 페이지
+![회원가입 페이지](./readmeImage/05.png)
 
 ## Build Setup
 
