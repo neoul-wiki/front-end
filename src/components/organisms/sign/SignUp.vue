@@ -8,7 +8,7 @@
           </div>
           <div class="inputBox">
             <label for="ib_id">아이디</label>
-            <input type="text" class="necessary ib_notEml" id="ib_id" autocomplete="off" required="required" @keyup="id()">
+            <input type="text" class="necessary ib_notEml" id="ib_id" autocomplete="off" required="required" @keyup="id()" @focusout="pwd();pwdCheck()">
           </div>
           <span class="explanation" id="id_ex">로그인할때 사용할 아이디입니다.</span>
           <div class="inputBox">
@@ -47,7 +47,11 @@
           _nikCheck:0,
           _pwCheck:0,
           _pwckCheck:0,
-          _emlCheck:0
+          _emlCheck:0,
+          s_errMsg:[
+            "회원가입을 성공했습니다.",
+            "데이터가 올바르지 않습니다."
+          ]
         }
       },
       name: "SignUp",
@@ -294,15 +298,22 @@
             alert("이메일이 지정된 서식에 맞지 않습니다.");
             target_eml.focus();
             return;
+          }else if(this._pwckCheck===2 && this._pwCheck===2 &&this._idCheck===2){
+            let result = this.submit_axios()
+            if(result === 0){
+              alert(this.s_errMsg[result]);
+              this.$router.push("/");
+            } else{
+              alert(this.s_errMsg[result]);
+            }
           }
-
+/*
+qawsedrf1!
+* */
         },
-        // 0 들어온 데이터가 Null 이면 true 를 리턴.
-        nullCheck(value){
-          if(value === "" || value === undefined || value === null){
-            return true;
-          }
-          return false;
+        // 회원가입 버튼 axios
+        submit_axios(){
+          return 1;
         },
         // target 에 허용되지 않는 특수문자(<, >, (, ), #, ', /, |)가 있습니다.
         // 특수문자 있을 시 true
